@@ -1,0 +1,15 @@
+library(dplyr)
+setwd("C:/Users/Samantha/Desktop/data_science")
+fileUrl<-"https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
+download.file(fileUrl, destfile="./zipdata.zip")
+unzip(zipfile="./zipdata.zip", exdir="./Electric_Power_Consumption"
+hpc<-read.csv("./Electric_Power_Consumption/household_power_consumption.txt", sep=";")
+hpc$Date<- as.Date(hpc$Date, "%d/%m/%Y")
+date1<-subset(hpc, hpc$Date=="2007-02-02")
+date2<-subset(hpc, hpc$Date=="2007-02-01")
+newdata<-rbind(date1,date2)
+newdata$Global_active_power<-as.character(newdata$Global_active_power)
+newdata$Global_active_power<-as.numeric(newdata$Global_active_power)
+png(file="plot1.png")
+hist(newdata$Global_active_power, col="red", xlab="Global Active Power (kilowatts)", main = "Global Active Power")
+dev.off()
